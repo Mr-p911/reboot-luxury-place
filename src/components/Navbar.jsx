@@ -10,7 +10,7 @@ export default function Navbar() {
     }
     return(   
         <>
-            <nav className="navbar">
+            <nav className="navbar" >
                 <div className="logo">
                     REBOOT <span className="logo-accent">LUXURY</span>
                 </div>
@@ -38,12 +38,12 @@ export default function Navbar() {
             </nav>
             <div className={`mobileMenuItems ${isMenuOpen ? 'open' : ''}`}>
                 <nav className='mobileNav'>
-                    <a href="#home" onClick={toggleMenu}>Home</a>
-                    <a href="#about" onClick={toggleMenu}>About us</a>
-                    <a href="#location" onClick={toggleMenu}>Location</a>
-                    <a href="#services" onClick={toggleMenu}>Services</a>
-                    <a href="#events" onClick={toggleMenu}>Events</a>
-                    <a href="#contact" onClick={toggleMenu}>Contact Us</a>
+                    <a href="#home" onClick={() => setIsMenuOpen(false)}>Home</a>
+                    <a href="#about" onClick={() => setIsMenuOpen(false)}>About us</a>
+                    <a href="#location" onClick={() => setIsMenuOpen(false)}>Location</a>
+                    <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
+                    <a href="#events" onClick={() => setIsMenuOpen(false)}>Events</a>
+                    <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact Us</a>
                 </nav>
             </div>
         </>
