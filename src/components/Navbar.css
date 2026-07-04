@@ -1,0 +1,187 @@
+:root{
+    --reboot-dark: #060913;
+    --reboot-card: rgb(17, 22, 37);
+    --reboot-purple: #8B5CF6;
+    --reboot-gold: #D4AF37;
+    --text-white: #F8FAFC;
+}
+
+
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5rem;
+    z-index: 50;
+    background-color: var(--reboot-dark);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+}
+.logo{
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.7px;
+}
+.logo-accent{
+    color: var(--reboot-gold);
+}
+.navbar-controls{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+}
+.btn-book{
+    text-decoration: none;
+    background-color: var(--reboot-gold);
+    color: var(--reboot-dark);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 8px 16px;
+    border-radius: 50px;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    transition: all 0.2s ease;
+}
+.tab{
+    display: none;
+}
+.btn-book:active{
+    transform: scale(0.95);
+}
+.hamburger {
+    width: 30px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 51;
+}
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.hamburger.open span:nth-child(1) {
+    transform: translateY(8.5px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-8.5px) rotate(-45deg);
+}
+.mobileMenuItems{
+    margin: 0 auto;
+    position: fixed;
+    top: 5rem;
+    width: 100%;
+    background-color: rgba(17, 22, 37, 0.9);
+    backdrop-filter: blur(5px);
+    --webkit-backdrop-filter: blur(20px);
+    padding-top: 2rem;
+    z-index: 50;
+
+    /*animation */
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+.mobileMenuItems.open{
+    height: 21rem;
+    opacity: 1;
+}
+.mobileNav a{
+    text-decoration: none;
+    color: var(--text-white);
+}
+.mobileNav a:active{
+    color: var(--reboot-gold);
+}
+.mobileNav{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    font-size: 1.7rem;
+}
+.pcNav{
+    display: none;
+}
+
+/*Media Queries*/
+/*Tablet*/
+@media(min-width: 768px){
+    .pcNav{
+        display: none;
+    }
+    .tab{
+        display: inline;
+    }
+    .btn-book{
+        margin-right: 0.7rem;
+    }
+}
+
+@media(min-width: 1024px){
+    .navbar{
+        height: 4.5rem;
+    }
+    .navbar-controls{
+        display: none;
+    }
+    .mobileMenuItems{
+        display: none;
+    }
+    .pcNav{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: space-between;
+    }
+    .pcNav a{
+        text-decoration: none;
+        color: var(--text-white);
+        position: relative;
+        font-size: 1.16rem;
+    }
+    .btn-book-pc{
+        background-color: var(--reboot-gold);
+        color: var(--reboot-dark);
+        font-size: 12px;
+        font-weight: 800;
+        padding: 8px 16px;
+        border-radius: 50px;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        transition: all 0.2s ease;
+        margin-left: 1.7rem;
+    }
+    .btn-book-pc:active{
+        transform: scale(1.1);
+    }
+    .u::after{
+         /*annimated underline effect on hover*/
+        content:'';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--reboot-purple);
+        transition: width 0.3s ease;
+    }
+    .u:hover::after {
+        width: 100%;
+    }
+    .u:active{
+        color: var(--reboot-gold);
+    }
+}

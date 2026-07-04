@@ -1,0 +1,268 @@
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    background-color: var(--reboot-dark); /* Fallback background */
+    overflow: hidden;
+}
+
+/* 1. CAROUSEL SLIDE BASE STYLES */
+.hero-bg-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 0;
+    
+    /* Start completely invisible */
+    opacity: 0;
+    /* Smooth 1-second cross-fade transition */
+    transition: opacity 1s ease-in-out;
+}
+
+/* 2. THE ACTIVE SLIDE */
+.hero-bg-slide.active {
+    opacity: 1;
+}
+
+/* 3. Dark Overlay Mask (Sits directly over the images, but under the text) */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Increased the opacity starting point from 0.75 to 0.82 for better text contrast */
+    background: linear-gradient(
+        180deg,
+        rgba(6, 9, 19, 0.82) 0%,
+        rgba(6, 9, 19, 0.92) 100%
+    );
+    z-index: 1;
+}
+
+/* 4. STATIC TEXT CONTENT (Sits on top of everything) */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 600px;
+    margin-top: 5rem; /* Space for the fixed header */
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    color: var(--text-white);
+}
+
+.hero-title-accent {
+    color: var(--reboot-gold);
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.hero-subtitle {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: #94a3b8;
+}
+
+.hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 2rem;
+}
+@media (min-width: 768px) {
+    .hero-cta-group {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+}
+/* Sleek Premium Secondary Button Style - Gold Variant */
+.btn-secondary-hero {
+    display: inline-block;
+    text-decoration: none;
+    background: transparent;
+    color: var(--reboot-gold);
+    /* Golden border to match the premium theme */
+    border: 2px solid var(--reboot-gold); 
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 14px 32px;
+    border-radius: 50px;
+    /* Soft golden glow effect around the box */
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+/* Hover and Active touch interactions for mobile/tablet */
+.btn-secondary-hero:hover,
+.btn-secondary-hero:active {
+    background: var(--reboot-gold);
+    color: var(--reboot-dark);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-primary-hero {
+    display: inline-block;
+    text-decoration: none;
+    background: transparent;
+    color: var(--reboot-purple);
+    border: 2px solid var(--reboot-purple);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 14px 32px;
+    border-radius: 50px;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-primary-hero:hover, 
+.btn-primary-hero:active {
+    background: var(--reboot-purple);
+    color: var(--text-white);
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+}
+/* --- 1. The Luxury Top Badge --- */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Space for the pulsing dot */
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2.5px; 
+    color: #fff;
+    margin-bottom: 1.5rem;
+    padding: 20px 15px ;
+    
+    /* Luxury Glassmorphism Gradient Effect */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(139, 92, 246, 0.1) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Subtle Gold border tint */
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Add a glowing neon indicator dot inside the badge */
+.hero-badge::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--reboot-purple);
+    box-shadow: 0 0 10px var(--reboot-purple), 0 0 20px var(--reboot-purple);
+    animation: beaconPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes beaconPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* --- 2. The Bottom Scroll Indicator Layout --- */
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scroll-line {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--reboot-purple), transparent);
+    animation: scrollPulse 2s infinite ease-in-out;
+}
+
+/* Smooth motion keyframes to keep the mobile screen dynamic */
+@keyframes scrollPulse {
+    0% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(8px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+}
+
+/* --- Tablet Viewport Adjustments (768px to 1023px) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Widen the text framework */
+    .hero-content {
+        max-width: 700px;
+    }
+
+    /* Scale up layout text gracefully */
+    .hero-title {
+        font-size: 4.2rem;
+        line-height: 1.1;
+        letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+        font-size: 2.5rem;
+        margin-top: 1.5rem;
+        max-width: 625px;
+        margin-left: auto;
+        margin-right: auto;
+        color: #e2e8f0;
+    }
+}
+
+/* --- Desktop Adjustments for Hero --- */
+@media (min-width: 1024px) {
+    /* Make the content container wider to spread text beautifully */
+    .hero-content {
+        max-width: 900px;
+    }
+
+    /* Bolden and heavily scale up the title */
+    .hero-title {
+        font-size: 5.5rem; /* Massive, punchy title */
+        font-weight: 900;
+        letter-spacing: -2px;
+        line-height: 1.05;
+        /* Adds a subtle dark drop-shadow to completely separate text from background imagery */
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Make the descriptive paragraph stand out more */
+    .hero-subtitle {
+        font-size: 1.25rem;
+        max-width: 650px;
+        margin: 2rem auto 0 auto; /* Centers paragraph and adds clean spacing */
+        color: #cbd5e1; /* Lighter, crispier gray for maximum legibility */
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+    .hero-scroll-indicator{
+        display: none;
+    }
+}

@@ -1,0 +1,371 @@
+.events-section {
+    width: 100%;
+    padding: 80px 20px;
+    background-color: var(--reboot-dark);
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.02); /* Subtle dividing edge between sections */
+}
+
+.events-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- SECTION HEADER --- */
+.events-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.events-subtitle {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--reboot-purple);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.events-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: var(--text-white);
+}
+
+.events-divider {
+    width: 50px;
+    height: 3px;
+    background-color: var(--reboot-gold);
+    margin: 15px auto 0 auto;
+    border-radius: 2px;
+}
+
+/* --- EVENTS FRAMEWORK CONTAINER --- */
+.events-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Base Mobile Structure - Glass Box Card Layout */
+.event-card {
+    background: rgba(17, 22, 37, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.event-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(17, 22, 37, 0.6);
+    transform: translateX(4px); /* Shifts gently right on desktop hover */
+}
+
+/* Day Badge Component */
+.event-day-badge {
+    align-self: flex-start;
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--reboot-dark);
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Content Styling */
+.event-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.event-time {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--reboot-gold);
+    letter-spacing: 0.5px;
+}
+
+.event-card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-white);
+    letter-spacing: -0.3px;
+}
+
+.event-card-tagline {
+    font-size: 1.1rem;
+    color: #94a3b8;
+}
+
+/* Call To Action Interaction Element */
+.event-action {
+    margin-top: 5px;
+}
+
+.event-link {
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-white);
+    opacity: 0.8;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.event-card:hover .event-link {
+    opacity: 1;
+    color: var(--reboot-gold);
+}
+
+/* --- MONTHLY MODAL & INTERACTION STYLES --- */
+
+/* --- MONTHLY MODAL & INTERACTION STYLES --- */
+
+.monthly-btn-container {
+    text-align: center;
+    margin-top: 45px;
+}
+
+/* Updated to reflect the premium gold aesthetic */
+.btn-monthly-calendar {
+    background: transparent;
+    color: var(--reboot-gold);
+    border: 2px solid var(--reboot-gold);
+    padding: 14px 32px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-monthly-calendar:hover {
+    background-color: var(--reboot-gold);
+    color: var(--reboot-dark);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+    transform: translateY(-2px);
+}
+
+/* Full screen overlay box that covers fixed elements */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(6, 9, 19, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Luxury Glass Card Modal Body Container */
+.modal-card {
+    background: rgba(17, 22, 37, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+    max-width: 650px; /* Slightly wider to easily accommodate text + booking buttons */
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+    animation: modalFadeIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes modalFadeIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--text-white);
+}
+
+.modal-desc {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.close-modal-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.close-modal-btn:hover {
+    color: var(--text-white);
+}
+
+/* Scrollable Event Rows Matrix */
+.modal-events-list {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.modal-event-item {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 16px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.modal-event-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-event-date {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--reboot-purple);
+    min-width: 70px;
+    letter-spacing: 0.5px;
+}
+
+.modal-event-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-white);
+}
+
+/* Interactive Table Reservation CTA Link inside Modal rows */
+.btn-modal-reserve {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    background: rgba(214, 175, 55, 0.1);
+    border: 1px solid rgba(214, 175, 55, 0.3);
+    color: var(--reboot-gold);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-modal-reserve:hover {
+    background: var(--reboot-gold);
+    color: var(--reboot-dark);
+    border-color: var(--reboot-gold);
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Tablet & Desktop Layouts (Snaps beautifully into clean modern rows instead of blocks) */
+@media (min-width: 768px) {
+    .events-section {
+        padding: 100px 40px;
+    }
+
+    .event-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 40px;
+        gap: 0;
+    }
+
+    /* Fixed uniform width for badges across rows so headers align elegantly */
+    .event-day-badge {
+        width: 120px;
+        text-align: center;
+        align-self: auto;
+        padding: 8px 0;
+        font-size: 15px;
+        font-weight: 900;
+    }
+
+    /* Centers descriptions cleanly between the badge and button */
+    .event-info {
+        flex: 1;
+        padding-left: 40px;
+        gap: 4px;
+    }
+
+    .event-card-title {
+        font-size: 1.8rem;
+    }
+    .event-card-tagline{
+        font-size: 1.4rem;
+    }
+    .event-link{
+        font-size: 18px;
+    }
+    .event-action {
+        margin-top: 0;
+    }
+    .modal-desc{
+        font-size: 1.4rem;
+    }
+    .modal-event-date{
+        font-size: 18.5px;
+    }
+    .modal-event-name{
+        font-size: 1.3rem;
+    }
+    .btn-modal-reserve{
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .events-title {
+        font-size: 3.5rem;
+    }
+}
+
+
+/* Responsive row handling for tablet/desktop viewport states */
+@media (min-width: 576px) {
+    .modal-event-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0;
+    }
+    
+    .modal-event-left {
+        flex: 1;
+        margin-right: 20px;
+    }
+}
