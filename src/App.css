@@ -1,7 +1,20 @@
+:root{
+    --reboot-dark: #ffffff;
+    --reboot-bg-soft: #f8fafc;
+
+    --reboot-card: #090d16;
+    --reboot-footer: #05070c;
+
+    --reboot-purple: #8B5CF6;
+    --reboot-gold: #D4AF37;
+
+    --text-main-canvas: #0f172a;
+    --text-white: #ffffff;
+}
 body{
-    /*background-color: var(--reboot-dark);*/
+    background-color: var(--reboot-dark);
     color: var(--text-white);
-    /*font-family: sans-serif;*/
+    transition: background-color 0.3s ease;
 }
 *{
     margin: 0;
@@ -13,4 +26,9 @@ html{
 }
 section[id] {
     scroll-margin-top: 5rem;
+}
+.showcase-title,
+.map-title,
+.gallery-title {
+    color: var(--text-main-canvas) !important; /* Converts freestanding titles to crisp dark slate */
 }

@@ -1,7 +1,7 @@
 .events-section {
     width: 100%;
     padding: 80px 20px;
-    background-color: var(--reboot-dark);
+    background-color: var(--reboot-bg-soft);
     position: relative;
     border-top: 1px solid rgba(255, 255, 255, 0.02); /* Subtle dividing edge between sections */
 }
@@ -30,7 +30,7 @@
     font-size: 2.5rem;
     font-weight: 900;
     letter-spacing: -1px;
-    color: var(--text-white);
+    color: var(--text-main-canvas);
 }
 
 .events-divider {
@@ -50,7 +50,7 @@
 
 /* Base Mobile Structure - Glass Box Card Layout */
 .event-card {
-    background: rgba(17, 22, 37, 0.4);
+    background: var(--reboot-card);
     border: 1px solid rgba(255, 255, 255, 0.04);
     border-radius: 20px;
     padding: 30px;
@@ -66,7 +66,6 @@
 
 .event-card:hover {
     border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(17, 22, 37, 0.6);
     transform: translateX(4px); /* Shifts gently right on desktop hover */
 }
 
@@ -128,17 +127,14 @@
     color: var(--reboot-gold);
 }
 
-/* --- MONTHLY MODAL & INTERACTION STYLES --- */
 
-/* --- MONTHLY MODAL & INTERACTION STYLES --- */
-
-.monthly-btn-container {
+.events-footer{
     text-align: center;
     margin-top: 45px;
 }
 
 /* Updated to reflect the premium gold aesthetic */
-.btn-monthly-calendar {
+.btn-view-specials {
     background: transparent;
     color: var(--reboot-gold);
     border: 2px solid var(--reboot-gold);
@@ -151,7 +147,7 @@
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.btn-monthly-calendar:hover {
+.btn-view-specials:hover {
     background-color: var(--reboot-gold);
     color: var(--reboot-dark);
     box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);

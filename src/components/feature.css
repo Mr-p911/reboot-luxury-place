@@ -29,7 +29,7 @@
     font-size: 2.5rem;
     font-weight: 900;
     letter-spacing: -1px;
-    color: var(--text-white);
+    color: var(--text-main-canvas);
 }
 
 .features-divider {
@@ -49,7 +49,7 @@
 
 /* Premium Luxury Glass Card Base */
 .feature-card {
-    background: rgba(17, 22, 37, 0.4); /* Matches your card color with custom alpha transparency */
+    background: var(--reboot-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 24px;
     padding: 40px 30px;

@@ -1,0 +1,166 @@
+.lookbook-page-section {
+    background-color: var(--reboot-dark);
+    padding: 100px 20px 80px 20px;
+    min-height: 100vh;
+}
+
+.lookbook-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.lookbook-page-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.lookbook-page-subtitle {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--reboot-purple);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.lookbook-page-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--text-main-canvas);
+    letter-spacing: -1px;
+}
+
+.lookbook-page-divider {
+    width: 15rem;
+    height: 3px;
+    background-color: var(--reboot-gold);
+    margin: 15px auto 0 auto;
+    border-radius: 2px;
+}
+
+/* --- TABS --- */
+.lookbook-filter-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.lookbook-tab-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    padding: 10px 26px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    border-radius: 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.lookbook-tab-btn:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.lookbook-tab-btn.active {
+    background: var(--reboot-gold);
+    border-color: var(--reboot-gold);
+    color: var(--reboot-dark);
+    font-weight: 900;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.25);
+}
+
+/* --- GRID LAYOUT --- */
+.lookbook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.lookbook-item {
+    cursor: pointer;
+}
+
+.lookbook-media-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+}
+
+.lookbook-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.lookbook-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 24px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    display: flex;
+    flex-direction: column;
+}
+
+.lookbook-item-category {
+    color: var(--reboot-gold);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.lookbook-item-title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-top: 4px;
+}
+
+.lookbook-item:hover .lookbook-img {
+    transform: scale(1.05);
+}
+
+/* --- LIGHTBOX MODAL --- */
+.lookbook-lightbox-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lookbook-lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.lookbook-lightbox-content {
+    max-width: 90%;
+    max-height: 80vh;
+}
+
+.lookbook-lightbox-img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
