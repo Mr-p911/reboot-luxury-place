@@ -97,6 +97,7 @@
     background: rgba(139, 92, 246, 0.1);
     border: 1px solid var(--reboot-purple);
     padding: 12px 20px;
+    margin: 20px 0px 20px 0;
     border-radius: 12px;
     font-size: 0.9rem;
     color: var(--text-white);
@@ -125,6 +126,12 @@
     cursor: pointer;
     box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
     transition: all 0.3s ease;
+    
+
+    display: block;    
+    width: 100%;         
+    text-align: center;   
+    margin-top: 20px;
 }
 
 .btn-submit-booking:hover {
@@ -181,18 +188,28 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    /*width: 100%;*/
+    align-items: stretch;
+    height: 100% !important; 
 }
 
 .event-poster-box {
-    position: relative;
-    width: 100%;
-    height: 250px;
+    position: relative !important;
+    width: 40% !important;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
 }
 
 .event-poster-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100%;
+    object-fit: cover !important; /* Crops excess cleanly instead of squishing or warping the flyer */
+    object-position: center top;  /* Keeps the top of the flyer/faces visible when cropping */
+    display: block;
+    flex-grow: 1;
 }
 
 .event-badge-tag {
@@ -238,7 +255,7 @@
 .djs-lineup-row {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding-top: 16px;
 }
@@ -250,20 +267,17 @@
     letter-spacing: 1px;
 }
 
-.dj-badges {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
 
 .dj-badge {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
-    padding: 6px 14px;
+    padding: 10px 18px;
     border-radius: 30px;
-    font-size: 11px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
     font-weight: 700;
     color: var(--text-white);
+    width: fit-content;
 }
 
 .btn-book-this-night {
@@ -378,6 +392,157 @@
 .close-lightbox:hover {
     transform: scale(1.15) rotate(90deg);
 }
+/* --- UPDATED CLIENT BOOKING PRICING RULES --- */
+
+.booking-events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.booking-event-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.booking-event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.card-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.access-status-badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+}
+
+.access-status-badge.free {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.access-status-badge.paid {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.event-card-performers {
+    font-size: 12px;
+    color: #a78bfa;
+    font-weight: 700;
+    margin: -6px 0 10px 0;
+}
+
+.card-pricing-preview-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 14px 0;
+}
+
+.preview-tier-pill {
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e2e8f0;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-weight: 600;
+}
+
+.btn-link-event-trigger {
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: auto;
+    transition: all 0.2s;
+}
+
+.btn-link-event-trigger:hover {
+    background: white;
+    color: black;
+}
+
+.btn-link-event-trigger.linked-active {
+    background: #22c55e;
+    color: white;
+    border-color: #22c55e;
+}
+
+/* Form Intersections */
+.highlight-input-group select {
+    border-color: #a855f7 !important;
+    background: rgba(168, 85, 247, 0.04) !important;
+}
+
+.pulsing-glow-label {
+    color: #c084fc !important;
+    animation: textPulse 2s infinite alternate;
+}
+
+.selected-event-badge-alert {
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    padding: 14px 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    color: #e9d5ff;
+    font-size: 13px;
+}
+
+.clear-event-btn {
+    background: none;
+    border: none;
+    color: #fca5a5;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.clear-event-btn:hover {
+    color: #ef4444;
+}
+
+@keyframes textPulse {
+    from { opacity: 0.8; }
+    to { opacity: 1; text-shadow: 0 0 8px rgba(192, 132, 252, 0.4); }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
 
 @keyframes zoomAnimation {
     from {
@@ -390,6 +555,34 @@
     }
 }
 
+/* --- PRICE CATEGORY PILLS ON EVENT CARDS --- */
+.card-pricing-preview-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0px 0;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.preview-tier-pill {
+    font-size: 11px;
+    background: rgba(168, 85, 247, 0.12); /* Subtle purple glassmorphism */
+    color: #f3e8ff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.preview-tier-pill strong {
+    color: #c084fc;
+    font-weight: 800;
+}
+
 /* Responsive Structural Queries Grid Breakpoints */
 @media(min-width: 768px) {
     .form-grid {
@@ -398,7 +591,6 @@
     
     .event-extended-card {
         flex-direction: row;
-        height: 320px;
     }
     
     .event-poster-box {

@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './booking.css'; // Make sure capitalization matches your filename exactly
 
 export default function Booking() {
+  // --- DYNAMIC DATA STATE CORE ---
+  const [monthlyEvents, setMonthlyEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   // Booking Form States
   const [formData, setFormData] = useState({
     name: '',
@@ -19,153 +23,157 @@ export default function Booking() {
   // Dynamic Month Helper: Pulls the current system month in uppercase (e.g., JULY)
   const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' }).toUpperCase();
 
-  // Mock Expanded Events Data for the Lookbook Catalog
-  const monthlyEvents = [
-    {
-      id: 'e1',
-      title: 'VINTAGE GOLD NIGHT',
-      date: 'Friday, July 10',
-      description: 'An elite throwback experience featuring rare rhythm matrices, premium signature mixes, and a complimentary gold-tier welcome cocktail for early entries.',
-      djs: ['DJ KAPPA', 'MC FLASH'],
-      poster: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
-      tag: 'MOST POPULAR'
-    },
-    {
-      id: 'e2',
-      title: 'NEON MATRIX ECLIPSE',
-      date: 'Friday, July 17',
-      description: 'Step into the future of nightlife. High-intensity laser systems paired with heavy synth-wave beats and immersive structural audio setups.',
-      djs: ['DJ HYPER', 'HYMAN'],
-      poster: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80',
-      tag: 'HIGH ENERGY'
-    },
-    {
-      id: 'e3',
-      title: 'MIDNIGHT OASIS POOLPARTY',
-      date: 'Saturday, July 25',
-      description: 'Premium poolside acoustics under the stars. Special light displays, open-air cabanas, and custom mixology bars running all night long.',
-      djs: ['DJ LIQUID', 'MC BREEZE'],
-      poster: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80',
-      tag: 'POOL SIDE'
-    }
-  ];
-
-  // Autofill form when user clicks a specific event poster button
-  const selectEventForBooking = (event) => {
-    setFormData({
-      ...formData,
-      zone: 'VIP Club Arena',
-      specialEventId: event.title
-    });
-    // Smoothly scroll down to the booking form input field block
-    document.getElementById('booking-form-anchor').scrollIntoView({ behavior: 'smooth' });
-  };
+  // --- GET LIVE DATA FROM THE BACKEND ---
+  useEffect(() => {
+    const fetchLiveEvents = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/events');
+        const data = await response.json();
+        if (response.ok) {
+          setMonthlyEvents(data);
+        }
+      } catch (err) {
+        console.error("Failed to pool active operational events:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLiveEvents();
+  }, []);
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Reservation Request Submitted for: ${formData.name} - ${formData.specialEventId || formData.zone}`);
+  // Select event action handler
+  const handleSelectEvent = (eventId, eventDateString) => {
+    const normalizedDate = eventDateString ? eventDateString.split('T')[0] : '';
+    setFormData({
+      ...formData,
+      specialEventId: eventId,
+      date: normalizedDate
+    });
+
+    document.getElementById('reservation-form-block')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    alert(`Reservation Request Submitted Successfully!\nName: ${formData.name}\nDate: ${formData.date}`);
+  };
+
+  if (loading) {
+    return (
+      <div style={{ background: 'var(--reboot-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+        LOADING RESERVATION CATALOG...
+      </div>
+    );
+  }
 
   return (
     <section className="booking-section" id="booking">
       <div className="booking-container">
-        
-        {/* --- FIRST LAYER: SHOWCASE CATALOG WITH DYNAMIC GOLD MONTH HEADER --- */}
+
+        {/* LOOKBOOK EVENT MATRIX WRAPPER */}
         <div className="showcase-wrapper">
           <div className="showcase-header">
-            <span className="showcase-subtitle">THE FULL LOOKBOOK</span>
+            <span className="showcase-subtitle">REBOOT SCHEDULE MATRIX</span>
             <h2 className="showcase-title">
               <span className="dynamic-month-gold">{currentMonthName}</span> SPECIAL EXPERIENCES
             </h2>
             <p className="showcase-desc">Explore exclusive curated lineups for this month. Secure your table allocation ahead of time to guarantee entry.</p>
           </div>
+          {monthlyEvents.length > 0 ? (
+            <div className="events-extended-list">
+              {monthlyEvents.map((ev) => {
+                const structuredDate = new Date(ev.date).toLocaleDateString('en-US', {
+                  weekday: 'long', month: 'short', day: 'numeric'
+                });
 
-          <div className="events-extended-list">
-            {monthlyEvents.map((event) => (
-              <div key={event.id} className="event-extended-card">
-                
-                {/* Left side: Poster Box (Clicking this opens the Lightbox modal) */}
-                <div 
-                  className="event-poster-box" 
-                  onClick={() => setLightboxImg(event.poster)}
-                  title="Click to zoom poster"
-                  style={{ cursor: 'zoom-in' }}
-                >
-                  <img src={event.poster} alt={event.title} />
-                  <span className="event-badge-tag">{event.tag}</span>
-                  <div className="poster-zoom-overlay"><span>🔍 VIEW POSTER</span></div>
-                </div>
+                return (
+                  <div key={ev._id} className="event-extended-card">
+                    <div className="event-poster-box" onClick={() => setLightboxImg(ev.flyerUrl)}>
+                      <img src={ev.flyerUrl} alt={ev.title} />
+                      <div className="poster-zoom-overlay"><span>🔍 VIEW POSTER</span></div>
+                    </div>
 
-                {/* Right side: Detailed Information Breakdown */}
-                <div className="event-details-box">
-                  <div className="event-meta-top">
-                    <span className="event-date-stamp">📆 {event.date}</span>
-                    <h3 className="event-name-heading">{event.title}</h3>
-                  </div>
+                    <div className="event-details-box">
+                      <div>
+                        <span className="event-date-stamp">📆{structuredDate.toUpperCase()}</span>
+                        <h3 className="event-name-heading">{ev.title}</h3>
+                      </div>
 
-                  <p className="event-description-text">{event.description}</p>
+                      <p className="event-discription-text">{ev.description}</p>
+                      <div className="card-pricing-preview-list">
+                        {ev.ticketTiers.map((tier, tIdx) => (
+                          <span key={tIdx} className="preview-tier-pill">
+                            <strong>{tier.tierName}:</strong> ₦{Number(tier.price).toLocaleString()}
+                          </span>
+                        ))}
+                      </div>
+                      {ev.performers && (
+                        <div className="djs-lineup-row">
+                          <span className="lineup-label">FEATURING:</span>
+                          <span className="dj-badge">{ev.performers}</span>
+                        </div>
+                      )}
 
-                  <div className="djs-lineup-row">
-                    <span className="lineup-label">HEADLINING PERFORMERS:</span>
-                    <div className="dj-badges">
-                      {event.djs.map((dj, idx) => (
-                        <span key={idx} className="dj-badge">🔥 {dj}</span>
-                      ))}
+
+                      <button
+                        type="button"
+                        className={`btn-book-this-night ${formData.specialEventId === ev._id ? 'selected' : ''}`}
+                        onClick={() => handleSelectEvent(ev._id, ev.date)}
+                      >
+                        {formData.specialEventId === ev._id ? '✓ SELECTED' : 'BOOK THIS EVENT'}
+                      </button>
                     </div>
                   </div>
-
-                  <button 
-                    className="btn-book-this-night"
-                    onClick={() => selectEventForBooking(event)}
-                  >
-                    BOOK FOR THIS NIGHT
-                  </button>
-                </div>
-
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
+              <p>No active events found inside the catalog ledger window.</p>
+            </div>
+          )}
         </div>
 
-        {/* --- SECOND LAYER: MASTER RESERVATION CONCIERGE FORM --- */}
-        <div className="booking-form-wrapper" id="booking-form-anchor">
+        {/* RESERVATION SCHEDULER BLOCK FORM */}
+        <div id="reservation-form-block" className="booking-form-wrapper">
           <div className="form-header">
-            <span className="form-subtitle">SECURE ACCESS</span>
-            <h2 className="form-title">RESERVE A SANCTUARY</h2>
+            <span className="form-subtitle">ONLINE VIP TABLE PORTAL</span>
+            <h2 className="form-title">SECURE ENTRY RESERVATION</h2>
             <div className="form-divider"></div>
           </div>
 
-          <form onSubmit={handleSubmit} className="luxury-form">
+          <form onSubmit={handleFormSubmit}>
             <div className="form-grid">
               <div className="input-group">
                 <label>FULL NAME</label>
                 <input type="text" name="name" required placeholder="John Doe" value={formData.name} onChange={handleInputChange} />
               </div>
-              
+
               <div className="input-group">
                 <label>PHONE NUMBER</label>
-                <input type="tel" name="phone" required placeholder="+234 ..." value={formData.phone} onChange={handleInputChange} />
+                <input type="tel" name="phone" required placeholder="+1 (555) 000-0000" value={formData.phone} onChange={handleInputChange} />
               </div>
 
               <div className="input-group">
                 <label>GUEST COUNT</label>
                 <select name="guests" value={formData.guests} onChange={handleInputChange}>
-                  {[1,2,3,4,5,6,7,8,10].map(n => <option key={n} value={n}>{n} Guests</option>)}
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <option key={n} value={n}>{n} Guests</option>)}
                   <option value="12+">VIP Group (12+)</option>
                 </select>
               </div>
 
               <div className="input-group">
-                <label>CHOOSE ZONE</label>
+                <label>VIP CLUB ZONE</label>
                 <select name="zone" value={formData.zone} onChange={handleInputChange}>
-                  <option>Standard Lounge</option>
-                  <option>VIP Club Arena</option>
-                  <option>Premium Poolside Cabana</option>
-                  <option>Billiards Sports Hub</option>
+                  <option value="Standard Lounge">Standard Lounge Area</option>
+                  <option value="VIP Dancefloor Ring">VIP Dancefloor Ring</option>
+                  <option value="Main Stage Suite">Main Stage Backstage Suite</option>
+                  <option value="Billiards Sports Hub">Billiards Sports Hub</option>
                 </select>
               </div>
 
@@ -182,8 +190,8 @@ export default function Booking() {
 
             {formData.specialEventId && (
               <div className="selected-event-badge">
-                Selected Event Tier: <strong>{formData.specialEventId}</strong>
-                <button type="button" className="clear-event" onClick={() => setFormData({...formData, specialEventId: ''})}>✕ Clear</button>
+                Selected Event Tier Hook Activated
+                <button type="button" className="clear-event" onClick={() => setFormData({ ...formData, specialEventId: '' })}>✕ Remove Link</button>
               </div>
             )}
 
@@ -193,12 +201,12 @@ export default function Booking() {
 
       </div>
 
-      {/* --- POSTER LIGHTBOX OVERLAY VIEW MODAL --- */}
+      {/* --- FLOATING LIGHTBOX ENLARGEMENT CAPTION VIEW --- */}
       {lightboxImg && (
         <div className="poster-lightbox" onClick={() => setLightboxImg(null)}>
-          <button className="close-lightbox">✕</button>
+          <button className="close-lightbox" onClick={() => setLightboxImg(null)}>✕</button>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <img src={lightboxImg} alt="Expanded Lookbook Event Poster" />
+            <img src={lightboxImg} alt="Expanded Flyer View" />
           </div>
         </div>
       )}

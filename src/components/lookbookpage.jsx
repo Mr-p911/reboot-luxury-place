@@ -1,70 +1,111 @@
-import React, { useState } from 'react';
-import './lookbookpage.css'; // Completely separate CSS file!
+import React, { useState, useEffect } from 'react';
+import './lookbookpage.css';
 
 export default function LookbookPage() {
-  const [activeCategory, setActiveCategory] = useState("ALL");
-  const [lightboxItem, setLightboxItem] = useState(null);
+  const [lookbookItems, setLookbookItems] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('ALL');
+  const [loading, setLoading] = useState(true);
+  const [lightboxImage, setLightboxImage] = useState(null);
 
-  const categories = ["ALL", "CLUB ARENA", "VIP LOUNGE", "BAR & MIXOLOGY"];
+  useEffect(() => {
+    const fetchLookbook = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/lookbook');
+        const data = await response.json();
+        if (response.ok) {
+          setLookbookItems(data);
+        }
+      } catch (error) {
+        console.error("Error communicating with lookbook backend database:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Expanded database for the separate subpage
-  const lookbookDatabase = [
-    { id: 1, category: "CLUB ARENA", title: "Main Floor Matrix", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80" },
-    { id: 2, category: "BAR & MIXOLOGY", title: "Artisanal Cocktail Station", url: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80" },
-    { id: 3, category: "VIP LOUNGE", title: "Velvet Sanctuary Suites", url: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=800&q=80" },
-    { id: 4, category: "CLUB ARENA", title: "Laser Array Showcase", url: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80" },
-    { id: 5, category: "VIP LOUNGE", title: "Obsidian Private Enclaves", url: "https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=800&q=80" }
-  ];
+    fetchLookbook();
+  }, []);
 
-  const filteredItems = activeCategory === "ALL" 
-    ? lookbookDatabase 
-    : lookbookDatabase.filter(item => item.category === activeCategory);
+  // Dynamically compile active unique filter buttons from categories stored in database
+  const generatedCategories = ['ALL', ...new Set(lookbookItems.map(item => item.category.toUpperCase()))];
+
+  const filteredItems = activeCategory === 'ALL' 
+    ? lookbookItems 
+    : lookbookItems.filter(item => item.category.toUpperCase() === activeCategory);
+
+  if (loading) {
+    return (
+      <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e293b', fontWeight: 'bold' }}>
+        Loading Gallery...
+      </div>
+    );
+  }
 
   return (
     <section className="lookbook-page-section">
       <div className="lookbook-page-container">
         
         <div className="lookbook-page-header">
-          <span className="lookbook-page-subtitle">THE VISUAL DIRECTORY</span>
-          <h2 className="lookbook-page-title">THE FULL LOOKBOOK</h2>
+          <span className="lookbook-page-subtitle">DIGITAL VISUAL LOOKBOOK</span>
+          <h1 className="lookbook-page-title">EXPLORE THE VENUE</h1>
           <div className="lookbook-page-divider"></div>
         </div>
 
-        {/* Category Tabs */}
-        <div className="lookbook-filter-tabs">
-          {categories.map((cat, idx) => (
-            <button
-              key={idx}
-              className={`lookbook-tab-btn ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Masonry Grid */}
-        <div className="lookbook-grid">
-          {filteredItems.map((item) => (
-            <div key={item.id} className="lookbook-item" onClick={() => setLightboxItem(item)}>
-              <div className="lookbook-media-wrapper">
-                <img src={item.url} alt={item.title} className="lookbook-img" />
-                <div className="lookbook-overlay">
-                  <span className="lookbook-item-category">{item.category}</span>
-                  <h3 className="lookbook-item-title">{item.title}</h3>
-                </div>
-              </div>
+        {/* CONDITION 1: If there are lookbook items, render the full navigation and image gallery grid */}
+        {lookbookItems.length > 0 ? (
+          <>
+            {/* TABS FILTER BUTTON BAR */}
+            <div className="lookbook-filter-tabs-container">
+              {generatedCategories.map((cat, index) => (
+                <button
+                  key={index}
+                  className={`lookbook-tab-btn ${activeCategory === cat ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
+
+            {/* LOOKBOOK IMAGES GRID STAGE */}
+            <div className="lookbook-grid">
+              {filteredItems.map((item) => (
+                <div 
+                  key={item._id} 
+                  className="lookbook-item"
+                  onClick={() => setLightboxImage(item.imageUrl)}
+                >
+                  <div className="lookbook-media-wrapper">
+                    <img className="lookbook-img" src={item.imageUrl} alt={item.title} loading="lazy" />
+                    <div className="lookbook-overlay">
+                      <span className="lookbook-item-category">{item.category}</span>
+                      <h3 className="lookbook-item-title">{item.title}</h3>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          /* CONDITION 2: If no images exist anywhere, hide everything else and display clean fallback text */
+          <div className="lookbook-empty-state-fallback">
+            <span className="fallback-empty-icon">🖼️</span>
+            <p className="no-items-message">
+              No images available yet.
+            </p>
+            <p className="no-items-subtext">
+              Our curators are currently updating the lookbook collections. Please check back soon!
+            </p>
+          </div>
+        )}
 
       </div>
 
-      {lightboxItem && (
-        <div className="lookbook-lightbox-backdrop" onClick={() => setLightboxItem(null)}>
-          <button className="lookbook-lightbox-close" onClick={() => setLightboxItem(null)}>✕</button>
-          <div className="lookbook-lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <img src={lightboxItem.url} alt={lightboxItem.title} className="lookbook-lightbox-img" />
+      {/* --- LIGHTBOX MODAL --- */}
+      {lightboxImage && (
+        <div className="lookbook-lightbox-backdrop" onClick={() => setLightboxImage(null)}>
+          <button className="lookbook-lightbox-close" onClick={() => setLightboxImage(null)}>✕</button>
+          <div className="lookbook-lightbox-content" onClick={(e) => e.stopPropagation()}>\
+            <img src={lightboxImage} alt="Enlarged View" className="lookbook-lightbox-img" />
           </div>
         </div>
       )}
